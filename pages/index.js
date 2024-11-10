@@ -24,8 +24,7 @@ const nthDerivative = (e, answer) => {
     const exponent = a-n;
     if (a >= 1) {
         if(Number(n) > Number(a)){
-            a = 0;
-            n = 0;
+            answer = null;
         }
         else {
             answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
