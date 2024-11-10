@@ -228,3 +228,17 @@ a.secondary {
     filter: invert();
   }
 }
+
+@media (max-width: 755px) {
+  .description {
+    font-size: 10px;
+  }
+  .function {
+    font-size: 25px;
+    width: 80vw;
+  }
+  .function input {
+    width: 100%
+  }
+
+}
