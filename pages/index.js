@@ -22,14 +22,14 @@ const nthDerivative = (e, answer) => {
     let n = document.getElementById("n").value;
 
     const exponent = a-n;
-    if (a >= 1) {
+    if (a >= 0) {
         if(Number(n) > Number(a)){
             answer = null;
         }
         else {
             answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
         }
-    } else if (a < 0) {
+    }  else if (a < 0) {
         let top = (abs(a)-1+Number(n));
         let bottom = (abs(a)-1);
         if (top < 0) {
@@ -42,7 +42,6 @@ const nthDerivative = (e, answer) => {
             answer = ((a/(abs(a)))**Number(n)) * (b * (factorial(top)/factorial(bottom)));
         }
     }
-    console.log(answer);
     document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
 }
 
