@@ -23,7 +23,7 @@ const nthDerivative = (e, answer) => {
 
     const exponent = a-n;
     if (a >= 1) {
-        if(n > a){
+        if(Number(n) > Number(a)){
             a = 0;
             n = 0;
         }
