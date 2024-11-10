@@ -55,7 +55,7 @@ export default function Home() {
         <title>nth Derivative</title>
         <meta name="nth Derivative Calculator" content="nth Derivative Calculator" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/nthDerivative.svg" />
       </Head>
       <div
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
