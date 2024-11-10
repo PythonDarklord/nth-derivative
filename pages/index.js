@@ -2,7 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import {factorial} from "mathjs";
+import {abs, factorial} from "mathjs";
+import {useEffect} from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,20 +17,40 @@ const geistMono = localFont({
 });
 
 const nthDerivative = (e, answer) => {
-    const a = e.target.a
-    const b = e.target.b;
-    const n = e.target.n;
+    let a = document.getElementById("a").value;
+    let b = document.getElementById("b").value;
+    let n = document.getElementById("n").value;
 
-    if(a >= 1) {
-        answer = (b*factorial(a))/factorial(a-n);
+    const exponent = a-n;
+    if (a >= 1) {
+        if(n > a){
+            a = 0;
+            n = 0;
+        }
+        else {
+            answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
+        }
+    } else if (a < 0) {
+        let top = (abs(a)-1+Number(n));
+        let bottom = (abs(a)-1);
+        if (top < 0) {
+            top = 0;
+        }
+        else if (bottom < 0) {
+            bottom = 0;
+        }
+        else{
+            answer = ((a/(abs(a)))**Number(n)) * (b * (factorial(top)/factorial(bottom)));
+        }
     }
-    else if(a < 0) {
-
-    }
+    console.log(answer);
+    document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
 }
 
 export default function Home() {
+
     const answer = 0;
+
   return (
     <>
       <Head>
@@ -66,18 +87,19 @@ export default function Home() {
             <div className={styles.function}>
                 <form onChange={(e) => nthDerivative(e, answer)}>
                     <label htmlFor="geist-sans">Enter a: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"a"}></input>
+                    <input type={"number"} inputMode={"numeric"} id={"a"} name={"a"}></input>
                     <br/>
                     <label htmlFor="geist-mono">Enter b: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"b"}></input>
+                    <input type={"number"} inputMode={"numeric"} id={"b"} name={"b"}></input>
                     <br/>
                     <label htmlFor="geist-mono">Enter n: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"n"}></input>
+                    <input type={"number"} inputMode={"numeric"} id={"n"} name={"n"}></input>
+                    <div className={styles.answer}>
+                        <h3 id={"answer"}>Answer: 0 </h3>
+                    </div>
                 </form>
             </div>
-            <div className={styles.answer}>
-                <h3> Answer: {answer}</h3>
-            </div>
+
         </main>
       </div>
     </>
