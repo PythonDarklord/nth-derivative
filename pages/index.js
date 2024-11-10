@@ -77,12 +77,19 @@ export default function Home() {
 
                     </div>x<sup>a-n</sup></h2>
                 <h2> Negative nth Derivative Function: f<sup>(n)</sup>(x)=
+                    (<div className={styles.frac}>
+                        <span>a</span>
+                        <span className={styles.symbol}>/</span>
+                        <span className={styles.bottom}>|a|</span>
+
+                    </div>)<sup>n</sup>
                     <div className={styles.frac}>
                         <span>b*((|a|-1)+n)!</span>
                         <span className={styles.symbol}>/</span>
                         <span className={styles.bottom}>(|a|-1)!</span>
 
-                    </div>x<sup>a-n</sup></h2>
+                    </div>
+                    x<sup>a-n</sup></h2>
             </div>
             <div className={styles.function}>
                 <form onChange={(e) => nthDerivative(e, answer)}>
