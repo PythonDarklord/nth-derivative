@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import {abs, factorial} from "mathjs";
+import {abs, factorial, forEach, isInteger, isNegative} from "mathjs";
 import {useEffect} from "react";
 
 const geistSans = localFont({
@@ -22,14 +22,23 @@ const nthDerivative = (e, answer) => {
     let n = document.getElementById("n").value;
 
     const exponent = a-n;
-    if (a >= 0) {
+    if (!isInteger(Number(a))) {
+        let d = b;
+        for (let i = 0; i < abs(n); i++) {
+            let c = a-i;
+            d = d*c;
+        }
+        answer = d;
+    }
+    else if (Number(a) >= 0) {
         if(Number(n) > Number(a)){
             answer = null;
         }
         else {
             answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
         }
-    }  else if (a < 0) {
+    }
+    else if (a < 0) {
         let top = (abs(a)-1+Number(n));
         let bottom = (abs(a)-1);
         if (top < 0) {
