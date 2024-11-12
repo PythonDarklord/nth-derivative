@@ -82,12 +82,24 @@ export default function Derivative() {
         if (b === ""){
             setBSize(1.4);
         }
+        if (window.innerHeight < 1240) {
+            setASize(b.length + 0.5);
+            if (b === ""){
+                setASize(1.7);
+            }
+        }
     }
     const resizeN = () => {
         let n = document.getElementById("n").value;
         setNSize(n.length + 0.3);
         if (n === ""){
             setNSize(1.4);
+        }
+        if (window.innerHeight < 1240) {
+            setASize(n.length + 0.5);
+            if (n === ""){
+                setASize(1.7);
+            }
         }
     }
 
