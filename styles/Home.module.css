@@ -60,8 +60,6 @@
 }
 
 .answer {
-  background: #4c4c4c;
-  border-radius: 5px;
   padding: 1vh;
   font-size: 2vb;
 }
@@ -260,6 +258,7 @@ a.secondary {
   }
   .function {
     width: 80vw;
+    height: 30vh;
     margin: 25vh 0 0;
   }
   .function label {
