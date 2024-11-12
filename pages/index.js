@@ -65,7 +65,7 @@ export default function Derivative() {
 
     const resizeA = ()=> {
         let a = document.getElementById("a").value;
-        setASize(a.length + 0.3);
+        setASize(a.length + 0.4);
         if (a === ""){
             setASize(1.4);
         }
@@ -78,7 +78,7 @@ export default function Derivative() {
     }
     const resizeB = () => {
         let b = document.getElementById("b").value;
-        setBSize(b.length + 0.3);
+        setBSize(b.length + 0.4);
         if (b === ""){
             setBSize(1.4);
         }
@@ -91,7 +91,7 @@ export default function Derivative() {
     }
     const resizeN = () => {
         let n = document.getElementById("n").value;
-        setNSize(n.length + 0.3);
+        setNSize(n.length + 0.4);
         if (n === ""){
             setNSize(1.4);
         }

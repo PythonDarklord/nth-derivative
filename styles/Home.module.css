@@ -39,13 +39,15 @@
 }
 
 .function input {
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
   background: transparent;
   padding: 5px;
   height: 4vb;
   font-size: 3.8vb;
   min-inline-size: 1ch;
   max-inline-size: 10ch;
+  color: #aea3ef;
 }
 
 .function input[type=number]::-webkit-inner-spin-button,
@@ -55,7 +57,7 @@
 }
 
 .function input::placeholder {
-  color: #FFFFFF;
+  color: #aea3ef;
 }
 
 .answer {
