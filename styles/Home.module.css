@@ -28,11 +28,29 @@
   padding: 1vh;
 }
 
+.function label {
+  font-size: 2vw;
+}
+
 .function input {
-  height: 30px;
-  font-size: 15px;
-  margin: 5px 2px;
-  width: 22vw;
+  border: none;
+  background: transparent;
+  padding: 5px;
+  height: 25px;
+  font-size: 1.7vb;
+  min-inline-size: 1ch;
+  max-inline-size: 10ch;
+  field-sizing: content;
+}
+
+.function input[type=number]::-webkit-inner-spin-button,
+.function input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.function input::placeholder {
+  color: #FFFFFF;
 }
 
 .answer {
@@ -234,12 +252,14 @@ a.secondary {
     font-size: 10px;
   }
   .function {
-    font-size: 25px;
     width: 80vw;
     margin: 25vh 0 0;
   }
-  .function input {
-    width: 100%
+  .function label {
+    font-size: 4vw;
+  }
+  .answer {
+    font-size: 5vw;
   }
 
 }

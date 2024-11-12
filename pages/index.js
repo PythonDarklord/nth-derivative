@@ -16,7 +16,9 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
 const nthDerivative = (e, answer) => {
+
     let a = document.getElementById("a").value;
     let b = document.getElementById("b").value;
     let n = document.getElementById("n").value;
@@ -54,7 +56,7 @@ const nthDerivative = (e, answer) => {
     document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
 }
 
-export default function Home() {
+export default function Derivative() {
 
     const answer = 0;
 
@@ -100,14 +102,14 @@ export default function Home() {
             </div>
             <div className={styles.function}>
                 <form onChange={(e) => nthDerivative(e, answer)}>
-                    <label htmlFor="geist-sans">Enter a: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"a"} name={"a"}></input>
-                    <br/>
-                    <label htmlFor="geist-mono">Enter b: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"b"} name={"b"}></input>
-                    <br/>
-                    <label htmlFor="geist-mono">Enter n: </label>
-                    <input type={"number"} inputMode={"numeric"} id={"n"} name={"n"}></input>
+                    <label htmlFor="geist-sans">f
+                        <sup>
+                            (<input type={"number"}  placeholder={"n"} inputMode={"numeric"} id={"n"} name={"n"}></input>)
+                        </sup> (x) = <input type={"number"} placeholder={"b"} inputMode={"numeric"} id={"b"} name={"b"}></input>x<sup>
+                            <input type={"number"} placeholder={"a"} inputMode={"numeric"} id={"a"} name={"a"}></input>
+                    </sup></label>
+
+
                     <div className={styles.answer}>
                         <h3 id={"answer"}>Answer: 0 </h3>
                     </div>
