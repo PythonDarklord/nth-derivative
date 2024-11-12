@@ -62,17 +62,33 @@ export default function Derivative() {
     const [aSize, setASize] = useState(1.4);
     const [bSize, setBSize] = useState(1.4);
     const [nSize, setNSize] = useState(1.4);
-    const resizeA= ()=> {
+
+    const resizeA = ()=> {
         let a = document.getElementById("a").value;
         setASize(a.length + 0.3);
+        if (a === ""){
+            setASize(1.4);
+        }
+        if (window.innerHeight < 1240) {
+            setASize(a.length + 0.5);
+            if (a === ""){
+                setASize(1.7);
+            }
+        }
     }
-    const resizeB= () => {
+    const resizeB = () => {
         let b = document.getElementById("b").value;
         setBSize(b.length + 0.3);
+        if (b === ""){
+            setBSize(1.4);
+        }
     }
-    const resizeN= () => {
+    const resizeN = () => {
         let n = document.getElementById("n").value;
         setNSize(n.length + 0.3);
+        if (n === ""){
+            setNSize(1.4);
+        }
     }
 
   return (

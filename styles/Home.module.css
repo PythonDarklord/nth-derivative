@@ -251,7 +251,7 @@ a.secondary {
   }
 }
 
-@media (max-width: 755px) {
+@media (max-width: 950px) {
   .description {
     font-size: 1vb;
   }
@@ -271,4 +271,25 @@ a.secondary {
     font-size: 2vb;
   }
 
+}
+
+@media (max-height: 1240px) {
+  .description {
+    font-size: 1vb;
+  }
+  .function {
+    width: 80vw;
+    height: 30vh;
+    margin: 25vh 0 0;
+  }
+  .function label {
+    font-size: 6vb;
+  }
+  .function input {
+    height: 6vb;
+    font-size: 5.8vb;
+  }
+  .answer {
+    font-size: 3vb;
+  }
 }
