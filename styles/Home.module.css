@@ -46,7 +46,6 @@
   font-size: 3.8vb;
   min-inline-size: 1ch;
   max-inline-size: 10ch;
-  field-sizing: content;
 }
 
 .function input[type=number]::-webkit-inner-spin-button,

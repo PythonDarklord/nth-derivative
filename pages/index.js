@@ -3,7 +3,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 import {abs, factorial, forEach, isInteger, isNegative} from "mathjs";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,7 +15,6 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
 
 const nthDerivative = (e, answer) => {
 
@@ -59,6 +58,22 @@ const nthDerivative = (e, answer) => {
 export default function Derivative() {
 
     const answer = 0;
+
+    const [aSize, setASize] = useState(1.4);
+    const [bSize, setBSize] = useState(1.4);
+    const [nSize, setNSize] = useState(1.4);
+    const resizeA= ()=> {
+        let a = document.getElementById("a").value;
+        setASize(a.length + 0.3);
+    }
+    const resizeB= () => {
+        let b = document.getElementById("b").value;
+        setBSize(b.length + 0.3);
+    }
+    const resizeN= () => {
+        let n = document.getElementById("n").value;
+        setNSize(n.length + 0.3);
+    }
 
   return (
     <>
@@ -104,9 +119,9 @@ export default function Derivative() {
                 <form onChange={(e) => nthDerivative(e, answer)}>
                     <label htmlFor="geist-sans">f
                         <sup>
-                            (<input type={"number"}  placeholder={"n"} inputMode={"numeric"} id={"n"} name={"n"}></input>)
-                        </sup> (x) = <input type={"number"} placeholder={"b"} inputMode={"numeric"} id={"b"} name={"b"}></input>x<sup>
-                            <input type={"number"} placeholder={"a"} inputMode={"numeric"} id={"a"} name={"a"}></input>
+                            (<input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"} inputMode={"numeric"} id={"n"} name={"n"} onChange={()=>resizeN()}></input>)
+                        </sup> (x) = <input type={"number"} style={{"width": bSize + "ch"}} placeholder={"b"} inputMode={"numeric"} id={"b"} name={"b"} onChange={()=>resizeB()}></input>x<sup>
+                            <input type={"number"} style={{"width": aSize + "ch"}} placeholder={"a"} inputMode={"numeric"} id={"a"} name={"a"} onChange={()=>resizeA()}></input>
                     </sup></label>
 
 
