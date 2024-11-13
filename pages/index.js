@@ -126,11 +126,37 @@ export default function Derivative() {
                   <br/><br/>
                   <h2> Positive and Fractional nth Derivative Function: </h2>
                   <math>
+                    <mstyle className={styles.notation}>
+                        <mi>f</mi>
+                        <mo>(</mo>
+                        <mi>n</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mrow>
+                                <mo>(</mo>
+                                <mi>b</mi>
+                                <mo>*</mo>
+                                <mi>a</mi>
+                                <mo>!</mo>
+                                <mo>)</mo>
+                            </mrow>
+                            <mrow>
+                                <mo>(</mo>
+                                <mi>a</mi>
+                                <mo>-</mo>
+                                <mi>n</mi>
+                                <mo>)</mo>
+                                <mo>!</mo>
+                            </mrow>
+                        </mfrac>
 
+                    </mstyle>
                   </math>
                   <h2> Negative nth Derivative Function:</h2>
                   <math>
-                      <mi>f</mi>
+                    <mstyle className={styles.notation}>
+                    <mi>f</mi>
                       <mo>(</mo>
                       <mi>n</mi>
                       <mo>)</mo>
@@ -150,6 +176,39 @@ export default function Derivative() {
                           </mrow>
                           <mi>n</mi>
                       </msup>
+                      <mo>*</mo>
+                      <mo>(</mo>
+                        <mfrac>
+                            <mrow>
+                                <mo>(</mo>
+                                <mi>b</mi>
+                                <mo>(</mo>
+                                <mo>(</mo>
+                                <mo>|</mo>
+                                <mi>a</mi>
+                                <mo>|</mo>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                                <mo>+</mo>
+                                <mi>n</mi>
+                                <mo>)</mo>
+                                <mo>!</mo>
+                                <mo>)</mo>
+                                <mo>)</mo>
+                            </mrow>
+                            <mrow>
+                                <mo>(</mo>
+                                <mo>|</mo>
+                                <mi>a</mi>
+                                <mo>|</mo>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                                <mo>)</mo>
+                                <mo>!</mo>
+                            </mrow>
+                        </mfrac>
+                    <mo>)</mo>
+                    </mstyle>  
                   </math>
               </div>
               <div className={styles.function}>

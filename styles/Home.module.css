@@ -9,7 +9,8 @@
 }
 
 .title h1 {
-  font-size: 30px;
+  font-size: 4vb;
+  font-weight: 500;
 }
 
 .description {
@@ -21,6 +22,15 @@
   text-align: center;
 }
 
+.description h2 {
+  font-size: 3vb;
+  font-weight: 300;
+}
+
+.notation {
+  font-size:2.5vb;
+  font-weight: 100;
+}
 
 .function {
   display: flex;
