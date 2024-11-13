@@ -122,7 +122,21 @@ export default function Derivative() {
                       <h1>nth Derivative</h1>
                   </div>
               <div className={styles.description}>
-                  <h2> Parent Function: f(x)=bx<sup>a</sup></h2>
+                  <h2> Parent Function: </h2>
+                    <math>
+                        <mstyle className={styles.notation}>
+                            <mi>f</mi>
+                            <mo>(</mo>
+                            <mi>x</mi>
+                            <mo>)</mo>
+                            <mo>=</mo>
+                            <mi>b</mi>
+                            <msup>
+                                <mi>x</mi>
+                                <mi>a</mi>
+                            </msup>
+                        </mstyle>
+                    </math>
                   <br/><br/>
                   <h2> Positive and Fractional nth Derivative Function: </h2>
                   <math>
