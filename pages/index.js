@@ -25,9 +25,16 @@ const nthDerivative = (e, answer) => {
     const exponent = a-n;
     if (!isInteger(Number(a))) {
         let d = b;
-        for (let i = 0; i < abs(n); i++) {
-            let c = a-i;
-            d = d*c;
+        if(n>0){
+            for (let i = 0; i < n; i++) {
+                let c = a-i;
+                d = d*c;
+            }
+        } else if(n<=0){
+            for (let i = 0; i < abs(n); i++) {
+                let c = Number(a)+Number(i)+1;
+                d = d/c;
+            }
         }
         answer = d;
     }
