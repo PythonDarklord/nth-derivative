@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import {abs, factorial, forEach, isInteger, isNegative} from "mathjs";
+import {abs, evaluate, factorial, forEach, fraction, isInteger, isNegative} from "mathjs";
 import {useEffect, useState} from "react";
 
 const geistSans = localFont({
@@ -29,15 +29,17 @@ const nthDerivative = (e, answer) => {
             let c = a-i;
             d = d*c;
         }
-        answer = d;
+        answer = d
+        document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
     }
     else if (Number(a) >= 0) {
         if(Number(n) > Number(a)){
-            answer = null;
+            answer = 0;
         }
         else {
             answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
         }
+        document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
     }
     else if (a < 0) {
         let top = (abs(a)-1+Number(n));
@@ -51,8 +53,9 @@ const nthDerivative = (e, answer) => {
         else{
             answer = ((a/(abs(a)))**Number(n)) * (b * (factorial(top)/factorial(bottom)));
         }
+        document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
     }
-    document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
+
 }
 
 export default function Derivative() {
@@ -114,53 +117,62 @@ export default function Derivative() {
       <div
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
-        <main className={styles.main}>
-          <div className={styles.title}>
-            <h1>nth Derivative</h1>
-          </div>
-            <div className={styles.description}>
-                <h2> Parent Function: f(x)=bx<sup>a</sup></h2>
-                <br/><br/>
-                <h2> Positive nth Derivative Function: f<sup>(n)</sup>(x)=
-                    <div className={styles.frac}>
-                        <span>b*a!</span>
-                        <span className={styles.symbol}>/</span>
-                        <span className={styles.bottom}>(a-n)!</span>
+          <main className={styles.main}>
+                  <div className={styles.title}>
+                      <h1>nth Derivative</h1>
+                  </div>
+              <div className={styles.description}>
+                  <h2> Parent Function: f(x)=bx<sup>a</sup></h2>
+                  <br/><br/>
+                  <h2> Positive and Fractional nth Derivative Function: </h2>
+                  <math>
 
-                    </div>x<sup>a-n</sup></h2>
-                <h2> Negative nth Derivative Function: f<sup>(n)</sup>(x)=
-                    (<div className={styles.frac}>
-                        <span>a</span>
-                        <span className={styles.symbol}>/</span>
-                        <span className={styles.bottom}>|a|</span>
+                  </math>
+                  <h2> Negative nth Derivative Function:</h2>
+                  <math>
+                      <mi>f</mi>
+                      <mo>(</mo>
+                      <mi>n</mi>
+                      <mo>)</mo>
+                      <mo>=</mo>
+                      <msup>
+                          <mrow>
+                              <mo>(</mo>
+                              <mfrac>
+                                  <mi>a</mi>
+                                  <mrow>
+                                      <mo>|</mo>
+                                      <mi>a</mi>
+                                      <mo>|</mo>
+                                  </mrow>
+                              </mfrac>
+                              <mo>)</mo>
+                          </mrow>
+                          <mi>n</mi>
+                      </msup>
+                  </math>
+              </div>
+              <div className={styles.function}>
+              <form onChange={(e) => nthDerivative(e, answer)}>
+                      <label htmlFor="geist-sans">f
+                          <sup>
+                              (<input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"}
+                                      inputMode={"numeric"} id={"n"} name={"n"} onChange={() => resizeN()}></input>)
+                          </sup> (x) = <input type={"number"} style={{"width": bSize + "ch"}} placeholder={"b"}
+                                              inputMode={"numeric"} id={"b"} name={"b"}
+                                              onChange={() => resizeB()}></input>x<sup>
+                              <input type={"number"} style={{"width": aSize + "ch"}} placeholder={"a"}
+                                         inputMode={"numeric"} id={"a"} name={"a"} onChange={() => resizeA()}></input>
+                              </sup></label>
 
-                    </div>)<sup>n</sup>
-                    <div className={styles.frac}>
-                        <span>b*((|a|-1)+n)!</span>
-                        <span className={styles.symbol}>/</span>
-                        <span className={styles.bottom}>(|a|-1)!</span>
 
-                    </div>
-                    x<sup>a-n</sup></h2>
-            </div>
-            <div className={styles.function}>
-                <form onChange={(e) => nthDerivative(e, answer)}>
-                    <label htmlFor="geist-sans">f
-                        <sup>
-                            (<input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"} inputMode={"numeric"} id={"n"} name={"n"} onChange={()=>resizeN()}></input>)
-                        </sup> (x) = <input type={"number"} style={{"width": bSize + "ch"}} placeholder={"b"} inputMode={"numeric"} id={"b"} name={"b"} onChange={()=>resizeB()}></input>x<sup>
-                            <input type={"number"} style={{"width": aSize + "ch"}} placeholder={"a"} inputMode={"numeric"} id={"a"} name={"a"} onChange={()=>resizeA()}></input>
-                    </sup></label>
-
-
-                    <div className={styles.answer}>
-                        <h3 id={"answer"}>Answer: 0 </h3>
-                    </div>
-                </form>
-            </div>
-
-        </main>
+                          <div className={styles.answer}>
+                              <h3 id={"answer"}>Answer: 0 </h3>
+                          </div>
+                      </form>
+                  </div>
+          </main>
       </div>
     </>
-  );
+);
 }
