@@ -75,6 +75,13 @@
   font-size: 2vb;
 }
 
+.checkbox {
+  position: relative;
+  right: 18vb;
+  bottom: 2vb;
+  justify-content: center;
+}
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);

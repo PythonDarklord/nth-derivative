@@ -290,9 +290,11 @@ export default function Derivative() {
               </div>
               <div className={styles.function}>
               <form onChange={(e) => nthDerivative(e, answer, fractionalAnswers)}>
-                  <input type={"checkbox"}></input>
-                      <label htmlFor="geist-sans">f
-                          <sup>
+                  <div className={styles.checkbox}>
+                      <label style={{"fontSize": "1vb"}}>Fractional Answers: </label><input type={"checkbox"}></input>
+                  </div>
+                  <label htmlFor="geist-sans">f
+                      <sup>
                               (<input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"}
                                       inputMode={"numeric"} id={"n"} name={"n"} onChange={() => resizeN()}></input>)
                           </sup> (x) = <input type={"number"} style={{"width": bSize + "ch"}} placeholder={"b"}
