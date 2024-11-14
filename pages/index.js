@@ -15,22 +15,15 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
-function GCF(a, b) {
-    let smaller = Math.min(a, b);
-    let hcf = 1;
- 
-    for (let i = 1; i <= smaller; i++) {
-        if (a % i === 0 && b % i === 0) {
-            hcf = i;
+    const gcd = (a, b) => {
+        if (b === 0) {
+            return a;
         }
+        return gcd(b, a % b);
     }
- 
-    return hcf;
-}
 
 const reduceFraction = (n, d) => {
-    let greatestCommonFactor = GCF(n, d);
+    let greatestCommonFactor = gcd(n, d);
     n /= greatestCommonFactor;
     d /= greatestCommonFactor;
     return [n, d];
@@ -65,7 +58,7 @@ const decToFrac = (x) => {
     return a;
 }
 
-const nthDerivative = (e, answer) => {
+const nthDerivative = (e, answer, fractionalAnswers) => {
 
     let a = document.getElementById("a").value;
     let b = document.getElementById("b").value;
@@ -86,7 +79,9 @@ const nthDerivative = (e, answer) => {
             }
         }
         answer = d;
-        answer = decToFrac(answer);
+        if(fractionalAnswers === true) {
+            answer = decToFrac(answer);
+        }
         document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
     }
     else if (Number(a) >= 0) {
@@ -122,6 +117,8 @@ export default function Derivative() {
     const [aSize, setASize] = useState(1.4);
     const [bSize, setBSize] = useState(1.4);
     const [nSize, setNSize] = useState(1.4);
+
+    const [fractionalAnswers, setFractionalAnswers] = useState(false);
 
     const resizeA = ()=> {
         let a = document.getElementById("a").value;
@@ -292,7 +289,8 @@ export default function Derivative() {
                   </math>
               </div>
               <div className={styles.function}>
-              <form onChange={(e) => nthDerivative(e, answer)}>
+              <form onChange={(e) => nthDerivative(e, answer, fractionalAnswers)}>
+                  <input type={"checkbox"}></input>
                       <label htmlFor="geist-sans">f
                           <sup>
                               (<input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"}
