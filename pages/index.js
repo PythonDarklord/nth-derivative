@@ -16,11 +16,32 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+function GCF(a, b) {
+    let smaller = Math.min(a, b);
+    let hcf = 1;
+ 
+    for (let i = 1; i <= smaller; i++) {
+        if (a % i === 0 && b % i === 0) {
+            hcf = i;
+        }
+    }
+ 
+    return hcf;
+}
+
+const reduceFraction = (n, d) => {
+    let greatestCommonFactor = GCF(n, d);
+    n /= greatestCommonFactor;
+    d /= greatestCommonFactor;
+    return [n, d];
+}
+
 const decToFrac = (x) => {
     let a = '';
     let normalNumber = '';
     let numerator = '';
     let isAfterDecimal = false;
+
     let decimalPlace = 1;
     x.toString().split("").forEach((char) => {
         if(char === ".") {
@@ -33,9 +54,13 @@ const decToFrac = (x) => {
             decimalPlace *= 10;
         }
     })
-    if(isAfterDecimal) {
 
-        a+= "<math> <mfrac> <mn>" + numerator + "</mn> <mn>" + (decimalPlace) + "</mn> </mfrac></math>"
+    if(isAfterDecimal) {
+        numerator = ((Number(numerator) + (Number(normalNumber) * Number(decimalPlace)))).toString();
+        let reducedFraction = reduceFraction(Number(numerator), Number(decimalPlace));
+        a+= "<math> <mfrac> <mn>" + reducedFraction[0] + "</mn> <mn>" + (reducedFraction[1]) + "</mn> </mfrac></math>"
+    } else {
+        a=normalNumber;
     }
     return a;
 }
@@ -118,9 +143,9 @@ export default function Derivative() {
             setBSize(1.4);
         }
         if (window.innerHeight < 1240) {
-            setASize(b.length + 0.5);
+            setBSize(b.length + 0.5);
             if (b === ""){
-                setASize(1.7);
+                setBSize(1.7);
             }
         }
     }
@@ -131,9 +156,9 @@ export default function Derivative() {
             setNSize(1.4);
         }
         if (window.innerHeight < 1240) {
-            setASize(n.length + 0.5);
+            setNSize(n.length + 0.5);
             if (n === ""){
-                setASize(1.7);
+                setNSize(1.7);
             }
         }
     }
@@ -174,9 +199,14 @@ export default function Derivative() {
                   <math>
                     <mstyle className={styles.notation}>
                         <mi>f</mi>
-                        <mo>(</mo>
-                        <mi>n</mi>
-                        <mo>)</mo>
+                        <msup>
+                            <mrow>
+                                <mo>(</mo>
+                                <mi>x</mi>
+                                <mo>)</mo>
+                            </mrow>
+                            <mi>n</mi>
+                        </msup>
                         <mo>=</mo>
                         <mfrac>
                             <mrow>
@@ -203,9 +233,13 @@ export default function Derivative() {
                   <math>
                     <mstyle className={styles.notation}>
                     <mi>f</mi>
-                      <mo>(</mo>
-                      <mi>n</mi>
-                      <mo>)</mo>
+                    <msup>
+                        <mrow>
+                            <mo>(</mo>
+                            <mi>x</mi>
+                            <mo>)</mo>
+                        </mrow>
+                    </msup>
                       <mo>=</mo>
                       <msup>
                           <mrow>
