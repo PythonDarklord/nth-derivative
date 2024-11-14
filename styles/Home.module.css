@@ -76,10 +76,10 @@
 }
 
 .checkbox {
-  position: relative;
-  right: 18vb;
-  bottom: 2vb;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .page {
