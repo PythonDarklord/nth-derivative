@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import {abs, evaluate, factorial, forEach, fraction, isInteger, isNegative} from "mathjs";
+import {abs, concat, evaluate, factorial, forEach, fraction, isInteger, isNegative} from "mathjs";
 import {useEffect, useState} from "react";
 
 const geistSans = localFont({
@@ -15,6 +15,30 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const decToFrac = (x) => {
+    let a = '';
+    let normalNumber = '';
+    let numerator = '';
+    let isAfterDecimal = false;
+    let decimalPlace = 1;
+    x.toString().split("").forEach((char) => {
+        if(char === ".") {
+            isAfterDecimal = true;
+        }
+        if(isInteger(Number(char)) && isAfterDecimal === false) {
+            normalNumber += char;
+        } else if(isAfterDecimal && isInteger(Number(char))) {
+            numerator += char;
+            decimalPlace *= 10;
+        }
+    })
+    if(isAfterDecimal) {
+
+        a+= "<math> <mfrac> <mn>" + numerator + "</mn> <mn>" + (decimalPlace) + "</mn> </mfrac></math>"
+    }
+    return a;
+}
 
 const nthDerivative = (e, answer) => {
 
@@ -37,6 +61,7 @@ const nthDerivative = (e, answer) => {
             }
         }
         answer = d;
+        answer = decToFrac(answer);
         document.getElementById("answer").innerHTML = "Answer: " + answer + "x<sup>" + exponent + "</sup>";
     }
     else if (Number(a) >= 0) {
