@@ -41,6 +41,7 @@
   text-align: center;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 20vb;
 }
 
@@ -73,6 +74,22 @@
 .answer {
   padding: 1vh;
   font-size: 2vb;
+}
+
+.button {
+  display: flex;
+  width: 10vw;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vb;
+  position: relative;
+  background: #efa3a3;
+  color: black;
+  outline: black;
+  border-color: black;
+  height: 3vh;
+  border-radius: 5px;
 }
 
 .checkbox {
