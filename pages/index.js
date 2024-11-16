@@ -67,11 +67,11 @@ const multiplyX = (b, x, a) => {
 
 export default function Derivative() {
 
-    const [answer, setAnswer] = useState("0");
+    const [answer, setAnswer] = useState(["0"]);
 
-    const [exponent, setExponent] = useState("0");
+    const [exponent, setExponent] = useState(["0"]);
 
-    const [xTerm, setXTerm] = useState("x");
+    const [xTerm, setXTerm] = useState(["x"]);
 
     let isChecked = false;
 
@@ -80,14 +80,26 @@ export default function Derivative() {
     const [nSize, setNSize] = useState(1.4);
     const [xSize, setXSize] = useState(1.4);
 
+    const [x, setX] = useState("");
+
     const [addedTerms, setAddedTerms] = useState([]);
 
-    const nthDerivative = (e) => {
+    useEffect(() => {
+        if(x.toString() !== "") {
+            setAnswer([((multiplyX(Number(answer), Number(x), Number(exponent)))).toString()]);
+            setXTerm([""]);
+            setExponent([""]);
+        } else {
+            setXTerm(["x"]);
+        }
+    }, [x])
+
+    const nthDerivative = (id) => {
 
         let a = document.getElementById("a").value;
         let b = document.getElementById("b").value;
         let n = document.getElementById("n").value;
-        let x = document.getElementById("x").value;
+        setX(document.getElementById("x").value);
 
         setExponent((Number(a) - Number(n)).toString());
         if (!isInteger(Number(a))) {
@@ -124,19 +136,12 @@ export default function Derivative() {
                 setAnswer((((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)))).toString());
             }
         }
-        if(x.toString() !== "") {
-            setAnswer(((multiplyX(Number(answer), Number(x), Number(exponent)))).toString());
-            setXTerm("");
-            setExponent("");
-        } else {
-            setXTerm("x");
-        }
-
+        return([answer, exponent, x]);
     }
     const addTerm = () => {
         const id = addedTerms.length;
         if(id<4){
-            setAddedTerms(s=>[...s, {a: "a"+id, b: "b"+id}]
+            setAddedTerms(s=>[...s, {a: "a" + id, b: "b"+id, ans: nthDerivative()[0], expo: nthDerivative()[1], xT: nthDerivative()[2]}]
             );
         }
     }
@@ -323,7 +328,7 @@ export default function Derivative() {
                         </math>
                     </div>
                     <div className={styles.function}>
-                        <form onChange={nthDerivative}>
+                        <form onChange={() => nthDerivative("")}>
                             {/*Later Feature*/}
                             {/*<div className={styles.checkbox}>*/}
                             {/*    <label style={{"fontSize": "1vb"}}>Fractional Answers: </label><input type={"checkbox"} onClick={() => (isChecked = !isChecked)}></input>*/}
@@ -390,7 +395,13 @@ export default function Derivative() {
                                 );
                             })}
                             <div className={styles.answer}>
-                                <h3 id={"answer"}>Answer: {answer} {xTerm} <sup>{exponent}</sup></h3>
+                                <h3 id={"answer"}>Answer: {answer} {xTerm} <sup>{exponent}</sup> {addedTerms.map((term, i) => {
+                                    return(
+                                      <>
+                                          + {term.ans} {term.xT} <sup>{term.expo}</sup>
+                                      </>
+                                    );
+                                })}</h3>
                             </div>
                         </form>
                         <button className={styles.button} onClick={addTerm}>Add Term</button>
