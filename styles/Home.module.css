@@ -9,18 +9,28 @@
 }
 
 .title h1 {
-  font-size: 30px;
+  font-size: 4vb;
+  font-weight: 500;
 }
 
 .description {
   position: absolute;
-  top: 7vh;
+  top: 12vh;
   left: 0;
   width: 100%;
   justify-content: center;
   text-align: center;
 }
 
+.description h2 {
+  font-size: 3vb;
+  font-weight: 300;
+}
+
+.notation {
+  font-size:2.5vb;
+  font-weight: 100;
+}
 
 .function {
   display: flex;
@@ -31,6 +41,7 @@
   text-align: center;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 20vb;
 }
 
@@ -46,7 +57,7 @@
   height: 4vb;
   font-size: 3.8vb;
   min-inline-size: 1ch;
-  max-inline-size: 10ch;
+  max-inline-size: 4ch;
   color: #aea3ef;
 }
 
@@ -65,23 +76,27 @@
   font-size: 2vb;
 }
 
-.frac {
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  letter-spacing: 0.001em;
+.button {
+  display: flex;
+  width: 10vw;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vb;
+  position: relative;
+  background: #efa3a3;
+  color: black;
+  outline: black;
+  border-color: black;
+  height: 3vh;
+  border-radius: 5px;
 }
-.frac > span {
-  display: block;
-  padding: 0.01em;
-  margin: 0 3px;
-}
-.frac span.bottom {
-  border-top: solid #ffffff;
-}
-.frac span.symbol {
-  display: none;
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .page {
