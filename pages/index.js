@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import {abs, concat, evaluate, factorial, forEach, fraction, isInteger, isNegative} from "mathjs";
+import {abs, concat, evaluate, factorial, forEach, fraction, i, isInteger, isNegative} from "mathjs";
 import {useEffect, useState} from "react";
 
 const geistSans = localFont({
@@ -15,7 +15,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-    const gcd = (a, b) => {
+    const gcf = (a, b) => {
         if (b === 0) {
             return a;
         }
@@ -23,7 +23,7 @@ const geistMono = localFont({
     }
 
 const reduceFraction = (n, d) => {
-    let greatestCommonFactor = gcd(n, d);
+    let greatestCommonFactor = gcf(n, d);
     n /= greatestCommonFactor;
     d /= greatestCommonFactor;
     return [n, d];
@@ -67,108 +67,127 @@ const multiplyX = (b, x, a) => {
 
 export default function Derivative() {
 
-    const [answer, setAnswer] = useState(["0"]);
-
-    const [exponent, setExponent] = useState(["0"]);
-
-    const [xTerm, setXTerm] = useState(["x"]);
-
     let isChecked = false;
 
-    const [aSize, setASize] = useState(1.4);
-    const [bSize, setBSize] = useState(1.4);
-    const [nSize, setNSize] = useState(1.4);
-    const [xSize, setXSize] = useState(1.4);
+    const [nSize, setNSize] = useState([1.4]);
+    const [xSize, setXSize] = useState([1.4]);
 
     const [x, setX] = useState("");
 
-    const [addedTerms, setAddedTerms] = useState([]);
+    const [terms, setTerms] = useState([{aSize: 1.4, bSize: 1.4, ans: "", expo: "", xT: "x", key: 0}]);
+
 
     useEffect(() => {
-        if(x.toString() !== "") {
-            setAnswer([((multiplyX(Number(answer), Number(x), Number(exponent)))).toString()]);
-            setXTerm([""]);
-            setExponent([""]);
-        } else {
-            setXTerm(["x"]);
-        }
-    }, [x])
-
-    const nthDerivative = (id) => {
-
-        let a = document.getElementById("a").value;
-        let b = document.getElementById("b").value;
-        let n = document.getElementById("n").value;
-        setX(document.getElementById("x").value);
-
-        setExponent((Number(a) - Number(n)).toString());
-        if (!isInteger(Number(a))) {
-            let d = b;
-            if (n > 0) {
-                for (let i = 0; i < n; i++) {
-                    let c = a - i;
-                    d = d * c;
-                }
-            } else if (n <= 0) {
-                for (let i = 0; i < abs(n); i++) {
-                    let c = Number(a) + Number(i) + 1;
-                    d = d / c;
-                }
-            }
-            setAnswer(d);
-            if (isChecked === true) {
-                setAnswer(decToFrac(answer.toString()));
-            }
-        } else if (Number(a) >= 0) {
-            if (Number(n) > Number(a)) {
-                setAnswer("0");
+        terms.map((term) => {
+            if(x.toString() !== "") {
+                term.ans = (((multiplyX(Number(term.ans), Number(x), Number(term.expo)))).toString());
+                term.xT = "";
+                term.expo = "";
             } else {
-                setAnswer(((b * factorial(Number(a))) / factorial(Number(a) - Number(n))).toString());
+                term.xT = "x";
             }
-        } else if (a < 0) {
-            let top = (abs(a) - 1 + Number(n));
-            let bottom = (abs(a) - 1);
-            if (top < 0) {
-                top = 0;
-            } else if (bottom < 0) {
-                bottom = 0;
-            } else {
-                setAnswer((((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)))).toString());
-            }
-        }
-        return([answer, exponent, x]);
+        })
+    },[x])
+
+
+    const nthDerivative = () => {
+
+       terms.map((term, id) => {
+           let a = document.getElementById(("a" + id).toString()).value;
+           let b = document.getElementById(("b"+id).toString()).value;
+           let n = document.getElementById("n").value;
+           setX(document.getElementById("x").value);
+
+           term.expo = (Number(a) - Number(n)).toString();
+           if (!isInteger(Number(a))) {
+               let d = b;
+               if (n > 0) {
+                   for (let i = 0; i < n; i++) {
+                       let c = a - i;
+                       d = d * c;
+                   }
+               } else if (n <= 0) {
+                   for (let i = 0; i < abs(n); i++) {
+                       let c = Number(a) + Number(i) + 1;
+                       d = d / c;
+                   }
+               }
+               term.ans = (d);
+               if (isChecked === true) {
+                   term.ans = (decToFrac(term.ans.toString()));
+               }
+           } else if (Number(a) >= 0) {
+               if (Number(n) > Number(a)) {
+                   term.ans = "0";
+               } else {
+                   term.ans = (((b * factorial(Number(a))) / factorial(Number(a) - Number(n))).toString());
+               }
+           } else if (a < 0) {
+               let top = (abs(a) - 1 + Number(n));
+               let bottom = (abs(a) - 1);
+               if (top < 0) {
+                   top = 0;
+               } else if (bottom < 0) {
+                   bottom = 0;
+               } else {
+                   term.ans = ((((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)))).toString());
+               }
+           }
+
+           console.log(term);
+        })
     }
     const addTerm = () => {
-        const id = addedTerms.length;
+        const id = terms.length;
         if(id<4){
-            setAddedTerms(s=>[...s, {a: "a" + id, b: "b"+id, ans: nthDerivative()[0], expo: nthDerivative()[1], xT: nthDerivative()[2]}]
+            setTerms(s=>[...s, {aSize: 1.4, bSize: 1.4,  ans: "", expo: "", xT: "x", key: id}]
             );
         }
     }
 
-    const resizeA = () => {
-        let a = document.getElementById("a").value;
-        setASize(a.length + 0.4);
-        if (a === "") {
-            setASize(1.4);
-        }
-        if (window.innerHeight < 1240) {
-            setASize(a.length + 0.5);
-            if (a === "") {
-                setASize(1.7);
+    const resizeA = (e) => {
+        terms.map((term, id) => {
+            if(id === term.key) {
+                term.aSize = (e.target.value.length + 0.4);
+                if (e.target.value === "") {
+                    term.aSize = (1.4);
+                }
+                if (window.innerHeight < 1240) {
+                    term.aSize = (e.target.value.length + 0.5);
+                    if (e.target.value === "") {
+                        term.aSize = (1.7);
+                    }
+                }
             }
-        }
+        })
     }
-    const resizeB = () => {
-        let b = document.getElementById("b").value;
-        setBSize(b.length + 0.4);
-        if (b === "") {
-            setBSize(1.4);
+    const resizeB = (e) => {
+        terms.map((term, id) => {
+            if(id === term.key) {
+                term.bSize = (e.target.value.length + 0.4);
+                if (e.target.value === "") {
+                    term.bSize = (1.4);
+                }
+                if (window.innerHeight < 1240) {
+                    term.bSize = (e.target.value.length + 0.5);
+                    if (e.target.value === "") {
+                        term.bSize = (1.7);
+                    }
+                }
+            }
+        })
+    }
+
+    const resize = (e) => {
+        const value = e.target.value;
+        e.target.value.width = value.length + 0.4;
+        if (value === ""){
+            e.target.value.width = 1.4;
         }
         if (window.innerHeight < 1240) {
-            setBSize(b.length + 0.5);
-            if (b === "") {
-                setBSize(1.7);
+            e.target.value.width = value.length + 0.5;
+            if (value === "") {
+                e.target.value.length = (1.7);
             }
         }
     }
@@ -198,6 +217,7 @@ export default function Derivative() {
             }
         }
     }
+
 
     return (
         <>
@@ -328,7 +348,7 @@ export default function Derivative() {
                         </math>
                     </div>
                     <div className={styles.function}>
-                        <form onChange={() => nthDerivative("")}>
+                        <form onChange={nthDerivative}>
                             {/*Later Feature*/}
                             {/*<div className={styles.checkbox}>*/}
                             {/*    <label style={{"fontSize": "1vb"}}>Fractional Answers: </label><input type={"checkbox"} onClick={() => (isChecked = !isChecked)}></input>*/}
@@ -343,7 +363,7 @@ export default function Derivative() {
                                         </math>
                                         <input type={"number"} style={{"width": nSize + "ch"}} placeholder={"n"}
                                                 inputMode={"numeric"} id={"n"} name={"n"}
-                                                onChange={() => resizeN()}></input>
+                                                onChange={() => resizeN}></input>
                                         <math>
                                             <mo>)</mo>
                                         </math>
@@ -356,54 +376,72 @@ export default function Derivative() {
                                         <mo>)</mo>
                                         <mo>=</mo>
                                     </math>
-                                    <input
-                                        type={"number"}
-                                        style={{"width": bSize + "ch"}}
-                                        placeholder={"b"}
-                                        inputMode={"numeric"} id={"b"}
-                                        name={"b"}
-                                        onChange={() => resizeB()}></input><math><mi>x</mi></math><sup>
-                                        <input type={"number"} style={{"width": aSize + "ch"}} placeholder={"a"}
-                                               inputMode={"numeric"} id={"a"} name={"a"}
-                                               onChange={() => resizeA()}></input>
-                                    </sup>
-                                    </label>
-                            {addedTerms.map((term, i) => {
-                                return(
-                                    <label>
-                                        <math>
-                                            <mo>+</mo>
-                                        </math>
-                                        <input
-                                            type={"number"}
-                                            style={{"width": bSize + "ch"}}
-                                            placeholder={term.b}
-                                            inputMode={"numeric"} id={term.id + i}
-                                            name={term.b}
-                                            onChange={() => resizeB()}></input>
-                                        <math>
-                                            <mi>x</mi>
-                                        </math>
-                                        <sup>
-                                            <input type={"number"} style={{"width": aSize + "ch"}}
-                                                   placeholder={term.a}
-                                                   inputMode={"numeric"} id={term.a + i} name={term.a}
-                                                   onChange={() => resizeA()}></input>
-                                        </sup>
-                                    </label>
+                                </label>
 
-                                );
-                            })}
-                            <div className={styles.answer}>
-                                <h3 id={"answer"}>Answer: {answer} {xTerm} <sup>{exponent}</sup> {addedTerms.map((term, i) => {
+                            {terms.map((term, i) => {
+                                if(terms.length > 1){
                                     return(
-                                      <>
-                                          + {term.ans} {term.xT} <sup>{term.expo}</sup>
-                                      </>
+                                            <label key={i}>
+                                                +
+                                                <input
+                                                    type={"number"}
+                                                    style={{"width": term.bSize + "ch"}}
+                                                    placeholder={term.b}
+                                                    inputMode={"numeric"} id={term.id + i.toString()}
+                                                    name={term.b}
+                                                   onChange={resizeB}></input>
+                                                <math>
+                                                    <mi>x</mi>
+                                                </math>
+                                                <sup>
+                                                    <input type={"number"} style={{"width": term.aSize + "ch"}}
+                                                           placeholder={term.a}
+                                                           inputMode={"numeric"} id={term.a + i.toString()} name={term.a}
+                                                           onChange={resizeA}></input>
+                                                </sup>
+                                            </label>
                                     );
-                                })}</h3>
-                            </div>
+                                } else {
+                                    return (
+                                            <label key={i}>
+                                                <input
+                                                    type={"number"}
+                                                    style={{"width": term.bSize + "ch"}}
+                                                    placeholder={"b"}
+                                                    inputMode={"numeric"} id={"b" + term.key}
+                                                    name={"b"}
+                                                    onChange={resizeB}></input>
+                                                <math>
+                                                    <mi>x</mi>
+                                                </math>
+                                                <sup>
+                                                    <input type={"number"} style={{"width": term.aSize + "ch"}}
+                                                           placeholder={"a"}
+                                                           inputMode={"numeric"} id={"a" + term.key} name={"a"}
+                                                           onChange={resizeA}></input>
+                                                </sup>
+                                            </label>
+                                    );
+                                }
+
+                            })}
                         </form>
+                        <div className={styles.answer}>
+                            <h3 id={"answer"}>Answer: </h3>
+                            {terms.map((term, i) => {
+                                if (terms.length > 1) {
+                                    return (
+                                        <h3 key={i}>
+                                            + {term.ans} {term.xT} <sup>{term.expo}</sup>
+                                        </h3>);
+                                } else {
+                                    return (
+                                        <h3 key={i}>
+                                            {term.ans} {term.xT} <sup>{term.expo}</sup>
+                                        </h3>);
+                                }
+                            })}
+                        </div>
                         <button className={styles.button} onClick={addTerm}>Add Term</button>
                     </div>
                 </main>
