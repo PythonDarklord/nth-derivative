@@ -68,7 +68,7 @@ const multiplyX = (b, x, a) => {
 
 export default function Derivative() {
 
-    const [answer, setAnswer] = useState({ans: "", exp: "", var: "x"})
+    const [answer, setAnswer] = useState({ans: "", exp: "", var: "x",})
 
     let isChecked = false;
 
@@ -77,25 +77,29 @@ export default function Derivative() {
     const [nSize, setNSize] = useState(1.4);
     const [xSize, setXSize] = useState(1.4);
 
+    const [fn, setFn] = useState([{a: null, b: null, n: null, key: 0}])
+
+    const [x, setX] = useState("")
+
     const nthDerivative = (e) => {
 
-        let a = document.getElementById("a").value;
-        let b = document.getElementById("b").value;
-        let n = document.getElementById("n").value;
-        let x = document.getElementById("x").value;
+        fn.a = document.getElementById("a").value;
+        fn.b = document.getElementById("b").value;
+        fn.n = document.getElementById("n").value;
+        setX(document.getElementById("x").value);
 
-        answer.exp = a - n;
+        answer.exp = fn.a - fn.n;
         answer.var = "x";
-        if (!isInteger(Number(a))) {
-            let d = b;
-            if (n > 0) {
-                for (let i = 0; i < n; i++) {
-                    let c = a - i;
+        if (!isInteger(Number(fn.a))) {
+            let d = fn.b;
+            if (fn.n > 0) {
+                for (let i = 0; i < fn.n; i++) {
+                    let c = fn.a - i;
                     d = d * c;
                 }
-            } else if (n <= 0) {
-                for (let i = 0; i < abs(n); i++) {
-                    let c = Number(a) + Number(i) + 1;
+            } else if (fn.n <= 0) {
+                for (let i = 0; i < abs(fn.n); i++) {
+                    let c = Number(fn.a) + Number(i) + 1;
                     d = d / c;
                 }
             }
@@ -107,21 +111,21 @@ export default function Derivative() {
             //     setAnswer(decToFrac(answer));
             // }
 
-        } else if (Number(a) >= 0) {
-            if (Number(n) > Number(a)) {
+        } else if (Number(fn.a) >= 0) {
+            if (Number(fn.n) > Number(a)) {
                 answer.ans = 0;
             } else {
-                answer.ans = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
+                answer.ans = (fn.b * factorial(Number(fn.a))) / factorial(Number(fn.a) - Number(fn.n));
             }
-        } else if (a < 0) {
-            let top = (abs(a) - 1 + Number(n));
-            let bottom = (abs(a) - 1);
+        } else if (fn.a < 0) {
+            let top = (abs(fn.a) - 1 + Number(fn.n));
+            let bottom = (abs(fn.a) - 1);
             if (top < 0) {
                 top = 0;
             } else if (bottom < 0) {
                 bottom = 0;
             } else {
-                answer.ans = ((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)));
+                answer.ans = ((fn.a / (abs(fn.a))) ** Number(fn.n)) * (fn.b * (factorial(top) / factorial(bottom)));
             }
         }
         if(x.toString() !== "") {
@@ -132,6 +136,7 @@ export default function Derivative() {
 
 
     }
+
 
     const resizeA = () => {
         let a = document.getElementById("a").value;
