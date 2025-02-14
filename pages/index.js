@@ -15,7 +15,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-    const gcd = (a, b) => {
+
+const gcd = (a, b) => {
         if (b === 0) {
             return a;
         }
@@ -67,11 +68,9 @@ const multiplyX = (b, x, a) => {
 
 export default function Derivative() {
 
-    let answer = 0;
+    const [answer, setAnswer] = useState({ans: "", exp: "", var: "x"})
 
     let isChecked = false;
-
-    let addedTerms = "";
 
     const [aSize, setASize] = useState(1.4);
     const [bSize, setBSize] = useState(1.4);
@@ -85,7 +84,8 @@ export default function Derivative() {
         let n = document.getElementById("n").value;
         let x = document.getElementById("x").value;
 
-        const exponent = a - n;
+        answer.exp = a - n;
+        answer.var = "x";
         if (!isInteger(Number(a))) {
             let d = b;
             if (n > 0) {
@@ -99,15 +99,19 @@ export default function Derivative() {
                     d = d / c;
                 }
             }
-            answer = d;
-            if (isChecked === true) {
-                answer = decToFrac(answer);
-            }
+            answer.ans = d;
+
+            // Later feature
+
+            // if (isChecked === true) {
+            //     setAnswer(decToFrac(answer));
+            // }
+
         } else if (Number(a) >= 0) {
             if (Number(n) > Number(a)) {
-                answer = 0;
+                answer.ans = 0;
             } else {
-                answer = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
+                answer.ans = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
             }
         } else if (a < 0) {
             let top = (abs(a) - 1 + Number(n));
@@ -117,35 +121,16 @@ export default function Derivative() {
             } else if (bottom < 0) {
                 bottom = 0;
             } else {
-                answer = ((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)));
+                answer.ans = ((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)));
             }
         }
         if(x.toString() !== "") {
-            answer = multiplyX(answer, x, exponent);
-            answer.toString();
-        } else{
-            answer.toString();
-            answer += "x<sup>" + exponent + "</sup>";
+            answer.ans = multiplyX(answer.ans, x, answer.exp);
+            answer.var = "";
+            answer.ans.toString();
         }
 
-        document.getElementById("answer").innerHTML = "Answer: " + answer;
 
-    }
-
-    const addTerm = () => {
-        addedTerms += "<input\n" +
-            "                                        type={\"number\"}\n" +
-            "                                        style={{\"width\": bSize + \"ch\"}}\n" +
-            "                                        placeholder={\"b\"}\n" +
-            "                                        inputMode={\"numeric\"} id={\"b\"}\n" +
-            "                                        name={\"b\"}\n" +
-            "                                        onChange={() => resizeB()}></input><math><mi>x</mi></math><sup>\n" +
-            "                                        <input type={\"number\"} style={{\"width\": aSize + \"ch\"}} placeholder={\"a\"}\n" +
-            "                                               inputMode={\"numeric\"} id={\"a\"} name={\"a\"}\n" +
-            "                                               onChange={() => resizeA()}></input>\n" +
-            "                                    </sup>"
-
-        document.getElementById("addTerm").innerHTML = addedTerms;
     }
 
     const resizeA = () => {
@@ -373,10 +358,9 @@ export default function Derivative() {
 
                                 </div></label>
                             <div className={styles.answer}>
-                                <h3 id={"answer"}>Answer: 0 </h3>
+                                <h3 id={"answer"}>Answer: {answer.ans} {answer.var} <sup> {answer.exp} </sup> </h3>
                             </div>
                         </form>
-                        <button className={styles.button} onClick={addTerm}>Add Term</button>
                     </div>
                 </main>
             </div>
