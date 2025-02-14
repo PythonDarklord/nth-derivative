@@ -15,7 +15,8 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-    const gcd = (a, b) => {
+
+const gcd = (a, b) => {
         if (b === 0) {
             return a;
         }
@@ -59,19 +60,15 @@ const decToFrac = (x) => {
 }
 
 const multiplyX = (b, x, a) => {
-        let ans = x**a;
-        ans *= b;
-        return ans;
+        let answer = x**a;
+        answer *= b;
+        return answer;
 }
 
 
 export default function Derivative() {
 
-    const [answer, setAnswer] = useState(["0"]);
-
-    const [exponent, setExponent] = useState(["0"]);
-
-    const [xTerm, setXTerm] = useState(["x"]);
+    const [answer, setAnswer] = useState({ans: "", exp: "", var: "x"})
 
     let isChecked = false;
 
@@ -80,28 +77,15 @@ export default function Derivative() {
     const [nSize, setNSize] = useState(1.4);
     const [xSize, setXSize] = useState(1.4);
 
-    const [x, setX] = useState("");
-
-    const [addedTerms, setAddedTerms] = useState([]);
-
-    useEffect(() => {
-        if(x.toString() !== "") {
-            setAnswer([((multiplyX(Number(answer), Number(x), Number(exponent)))).toString()]);
-            setXTerm([""]);
-            setExponent([""]);
-        } else {
-            setXTerm(["x"]);
-        }
-    }, [x])
-
-    const nthDerivative = (id) => {
+    const nthDerivative = (e) => {
 
         let a = document.getElementById("a").value;
         let b = document.getElementById("b").value;
         let n = document.getElementById("n").value;
-        setX(document.getElementById("x").value);
+        let x = document.getElementById("x").value;
 
-        setExponent((Number(a) - Number(n)).toString());
+        answer.exp = a - n;
+        answer.var = "x";
         if (!isInteger(Number(a))) {
             let d = b;
             if (n > 0) {
@@ -115,15 +99,19 @@ export default function Derivative() {
                     d = d / c;
                 }
             }
-            setAnswer(d);
-            if (isChecked === true) {
-                setAnswer(decToFrac(answer.toString()));
-            }
+            answer.ans = d;
+
+            // Later feature
+
+            // if (isChecked === true) {
+            //     setAnswer(decToFrac(answer));
+            // }
+
         } else if (Number(a) >= 0) {
             if (Number(n) > Number(a)) {
-                setAnswer("0");
+                answer.ans = 0;
             } else {
-                setAnswer(((b * factorial(Number(a))) / factorial(Number(a) - Number(n))).toString());
+                answer.ans = (b * factorial(Number(a))) / factorial(Number(a) - Number(n));
             }
         } else if (a < 0) {
             let top = (abs(a) - 1 + Number(n));
@@ -133,17 +121,16 @@ export default function Derivative() {
             } else if (bottom < 0) {
                 bottom = 0;
             } else {
-                setAnswer((((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)))).toString());
+                answer.ans = ((a / (abs(a))) ** Number(n)) * (b * (factorial(top) / factorial(bottom)));
             }
         }
-        return([answer, exponent, x]);
-    }
-    const addTerm = () => {
-        const id = addedTerms.length;
-        if(id<4){
-            setAddedTerms(s=>[...s, {a: "a" + id, b: "b"+id, ans: nthDerivative()[0], expo: nthDerivative()[1], xT: nthDerivative()[2]}]
-            );
+        if(x.toString() !== "") {
+            answer.ans = multiplyX(answer.ans, x, answer.exp);
+            answer.var = "";
+            answer.ans.toString();
         }
+
+
     }
 
     const resizeA = () => {
@@ -328,7 +315,7 @@ export default function Derivative() {
                         </math>
                     </div>
                     <div className={styles.function}>
-                        <form onChange={() => nthDerivative("")}>
+                        <form onChange={nthDerivative}>
                             {/*Later Feature*/}
                             {/*<div className={styles.checkbox}>*/}
                             {/*    <label style={{"fontSize": "1vb"}}>Fractional Answers: </label><input type={"checkbox"} onClick={() => (isChecked = !isChecked)}></input>*/}
@@ -367,44 +354,13 @@ export default function Derivative() {
                                                inputMode={"numeric"} id={"a"} name={"a"}
                                                onChange={() => resizeA()}></input>
                                     </sup>
-                                    </label>
-                            {addedTerms.map((term, i) => {
-                                return(
-                                    <label>
-                                        <math>
-                                            <mo>+</mo>
-                                        </math>
-                                        <input
-                                            type={"number"}
-                                            style={{"width": bSize + "ch"}}
-                                            placeholder={term.b}
-                                            inputMode={"numeric"} id={term.id + i}
-                                            name={term.b}
-                                            onChange={() => resizeB()}></input>
-                                        <math>
-                                            <mi>x</mi>
-                                        </math>
-                                        <sup>
-                                            <input type={"number"} style={{"width": aSize + "ch"}}
-                                                   placeholder={term.a}
-                                                   inputMode={"numeric"} id={term.a + i} name={term.a}
-                                                   onChange={() => resizeA()}></input>
-                                        </sup>
-                                    </label>
+                                <div id={"addedTerms"}>
 
-                                );
-                            })}
+                                </div></label>
                             <div className={styles.answer}>
-                                <h3 id={"answer"}>Answer: {answer} {xTerm} <sup>{exponent}</sup> {addedTerms.map((term, i) => {
-                                    return(
-                                      <>
-                                          + {term.ans} {term.xT} <sup>{term.expo}</sup>
-                                      </>
-                                    );
-                                })}</h3>
+                                <h3 id={"answer"}>Answer: {answer.ans} {answer.var} <sup> {answer.exp} </sup> </h3>
                             </div>
                         </form>
-                        <button className={styles.button} onClick={addTerm}>Add Term</button>
                     </div>
                 </main>
             </div>
